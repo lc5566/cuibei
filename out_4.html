@@ -62,7 +62,7 @@
 </head>
 <body>
 <div class="fontBlue page-header">
-    <h3>外访客户池</h3>
+    <h3>已处理记录</h3>
 </div>
 <div id="app">
     <template>
@@ -100,9 +100,9 @@
             </el-table-column>
             <el-table-column prop="time" label="处理时间" align="center">
             </el-table-column>
-            <el-table-column prop="name" label="姓名" align="center">
+            <el-table-column prop="name" label="客户姓名" align="center">
                 <template scope="scope">
-                    <el-button @click="clientNameClick(scope)" type="text">{{ scope.row.name }}</el-button>
+                    <el-button @click="clientNameClick(scope)" type="text">{{ scope.row.name | encryptName}}</el-button>
                 </template>
             </el-table-column>
             <el-table-column prop="restate" label="还款状态"
@@ -232,6 +232,11 @@
             handleCurrentChange(val) {
                 this.currentPage = val;
                 console.log(`当前页: ${val}`);
+            }
+        },
+        filters: {
+            encryptName (value) {
+                return value.replace(value.charAt(1),"*");
             }
         }
     }

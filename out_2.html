@@ -54,7 +54,7 @@
             margin-right:20px;
         }
         .stateSel{
-            width: 90px;
+            width: 100px;
             margin-right:20px;
         }
 
@@ -68,6 +68,8 @@
         <template>
             <el-row class="tableTools">
                 <el-col>
+                    <span class="titText">批次号：</span>
+                    <el-input v-model="batchNumValue" placeholder="" size="small"  class="customerInput"></el-input>
                     <span class="titText">客户姓名：</span>
                     <el-input v-model="customerValue" placeholder="" size="small"  class="customerInput"></el-input>
                     <span class="titText">还款状态：</span>
@@ -91,9 +93,11 @@
                 </el-table-column>
                 <el-table-column prop="time" label="进入客户池时间" align="center">
                 </el-table-column>
-                <el-table-column prop="name" label="姓名" align="center">
+                <el-table-column prop="batchNum" label="批次号" align="center">
+                </el-table-column>
+                <el-table-column prop="name" label="客户姓名" align="center">
                     <template scope="scope">
-                        <el-button @click="clientNameClick(scope)" type="text">{{ scope.row.name }}</el-button>
+                        <el-button @click="clientNameClick(scope)" type="text">{{ scope.row.name | encryptName}}</el-button>
                     </template>
                 </el-table-column>
                 <el-table-column prop="restate" label="还款状态"
@@ -125,6 +129,7 @@
     var Main = {
         data() {
             return {
+                batchNumValue:"",
                 customerValue:"",
                 selValue: "",
                 options: [{
@@ -146,30 +151,35 @@
                 tableData: [{
                     "id":"001",
                     "time": "2016-12-26 09:00:00",
+                    "batchNum":"2017021701",
                     "name": "胡一",
                     "restate": "M1",
                     "days": "2"
                 },{
                     "id":"002",
                     "time": "2016-12-26 09:00:00",
+                    "batchNum":"2017021702",
                     "name": "胡一",
                     "restate": "M2",
                     "days": "2"
                 },{
                     "id":"003",
                     "time": "2016-12-26 09:00:00",
+                    "batchNum":"2017021703",
                     "name": "胡一",
                     "restate": "M3",
                     "days": "2"
                 },{
                     "id":"004",
                     "time": "2016-12-26 09:00:00",
+                    "batchNum":"2017021704",
                     "name": "胡一",
                     "restate": "M4",
                     "days": "2"
                 },{
                     "id":"005",
                     "time": "2016-12-26 09:00:00",
+                    "batchNum":"2017021705",
                     "name": "胡一",
                     "restate": "M5",
                     "days": "2"
@@ -228,6 +238,11 @@
             handleCurrentChange(val) {
                 this.currentPage = val;
                 console.log(`当前页: ${val}`);
+            }
+        },
+        filters: {
+            encryptName (value) {
+                return value.replace(value.charAt(1),"*");
             }
         }
     }

@@ -2,63 +2,302 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>电催客户</title>
+    <title>Title</title>
+    <!--<script src="js/jquery.js"></script>-->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-default/index.css">
+    <!-- 引入组件库 -->
+    <script src="js/vue.js"></script>
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <style>
+        body{
+            background: #ffffff;
+            margin:0;
+            padding:0;
+            padding-left:15px;
+            padding-right:15px;
+        }
+        .page-header{
+            padding: 20px 0 9px;
+            border-bottom: 1px solid #eeeeee;
+        }
+        .page-header h3{
+            font-weight:500;
+            font-size: 24px;
+            margin-bottom: 10px;
+            margin-top:20px;
+        }
+        .fontGreen{
+            color:#1ab394;
+        }
+        .fontBlue{
+            color:#20A0FF;
+        }
+        .bgGreen{
+            background: #1ab394;
+        }
+        .titText{
+            line-height: 30px;
+            font-size:14px;
+            color: #1f2d3d;
+        }
+        .tableTools{
+            padding: 20px;
+            background: #ffffff;
+        }
+        .tableTools .btn{
+            width:100px;
+            margin-left:0;
+            margin-right:20px;
+        }
+        .customerInput{
+            width: 80px;
+            margin-right:20px;
+        }
+        .stateSel{
+            width: 100px;
+            margin-right:20px;
+        }
 
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/font-awesome.min.css" rel="stylesheet">
-    <link href="css/plugins/bootstrap-table.min.css" rel="stylesheet">
-    <link href="css/animate.css" rel="stylesheet">
-    <link href="css/style.css" rel="stylesheet">
-
-    <!-- 全局js -->
-    <script src="js/jquery.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-
-    <!--bootstrap-table-->
-    <script src="js/plugins/bootstrap-table.min.js"></script>
-    <script src="js/bootstrap-table-zh-CN.min.js"></script>
-    <script src="js/page/tel_2.js"></script>
-
+    </style>
 </head>
 <body>
-<div class="container-fluid">
-    <div class="page-header text-navy">
-        <h2>电催客户</h2>
-    </div>
-    <div class="ibox-content" style="border: none;padding-top:0px;padding-bottom: 0px;">
-        <form role="form" class="form-inline">
-            <div class="form-group input-group-sm">
-                <span >客户姓名：</span>
-                <input type="email" placeholder="" id="nameInput" class="form-control" style="width: 80px;">
-            </div>
-            <div class="form-group" style="margin-left: 20px;">
-                <span>还款状态：</span>
-                <select class="form-control m-b" name="account" id="stateSelect" style="margin: 0;height: 30px;border-radius: 3px;font-size: 13px;">
-                    <option>请选择</option>
-                    <option>M1</option>
-                    <option>M2</option>
-                    <option>M3</option>
-                    <option>M4</option>
-                    <option>M5+</option>
-                </select>
-            </div>
-            <div class="form-group input-group-sm" style="margin-left: 20px;">
-                <span >催收员：</span>
-                <input type="email" placeholder="" id="urgeName" class="form-control" style="width: 80px;">
-            </div>
-            <div class="form-group" style="margin-left: 20px;">
-                <span>状态：</span>
-                <select class="form-control m-b" name="account" id="urgeState" style="margin: 0;height: 30px;border-radius: 3px;font-size: 13px;">
-                    <option>请选择</option>
-                    <option>待催收</option>
-                    <option>催收中</option>
-                </select>
-            </div>
-            <div class="btn btn-primary btn-sm" id="searchBtn" style="margin-left: 20px;width:100px;">搜索</div>
-            <div class="btn btn-primary btn-sm" id="batchBtn" style="margin-left: 20px;width:100px;">批量领取</div>
-        </form>
-    </div>
-    <table id="table" data-classes="table-no-bordered"></table>
+<div class="fontBlue page-header">
+    <h3>电催客户</h3>
 </div>
+<div id="app">
+    <template>
+        <el-row class="tableTools">
+            <el-col>
+                <span class="titText">批次号：</span>
+                <el-input v-model="batchNumValue" placeholder="" size="small"  class="customerInput"></el-input>
+                <span class="titText">客户姓名：</span>
+                <el-input v-model="customerValue" placeholder="" size="small"  class="customerInput"></el-input>
+                <span class="titText">委托方：</span>
+                <el-select v-model="entrusterValue" clearable placeholder="请选择"  size="small" class="stateSel">
+                    <el-option
+                            v-for="item in entrusterOptions"
+                            :label="item.value"
+                            :value="item.value">
+                    </el-option>
+                </el-select>
+                <span class="titText">还款状态：</span>
+                <el-select v-model="repayStateValue" clearable placeholder="请选择"  size="small" class="stateSel">
+                    <el-option
+                            v-for="item in repayStateOptions"
+                            :label="item.value"
+                            :value="item.value">
+                    </el-option>
+                </el-select>
+                <span class="titText">逾期天数：</span>
+                <el-input v-model="overdueBeginValue" placeholder="" size="small"  class="customerInput" style="margin-right:0;"></el-input>
+                <span>-</span>
+                <el-input v-model="overdueFinishValue" placeholder="" size="small"  class="customerInput"></el-input>
+            </el-col>
+            <el-col style="margin-top: 20px;">
+                <span class="titText">催收员：</span>
+                <el-input v-model="ODVValue" placeholder="" size="small"  class="customerInput"></el-input>
+                <span class="titText">状态：</span>
+                <el-select v-model="stateValue" clearable placeholder="请选择"  size="small" class="stateSel">
+                    <el-option
+                            v-for="item in stateOptions"
+                            :label="item.value"
+                            :value="item.value">
+                    </el-option>
+                </el-select>
+                <el-button type="primary" size="small" class="btn" @click="searchClick">搜索</el-button>
+                <el-button type="primary" size="small" class="btn" @click="distributionClick">一键分配</el-button>
+            </el-col>
+        </el-row>
+        <el-table :data="tableData" stripe style="width: 100%"
+                  :default-sort="{prop: 'time', order: 'descending'}"
+                  @selection-change="handleSelectionChange">
+            <el-table-column type="selection" align="center">
+            </el-table-column>
+            <el-table-column type="index" label="序号" width="100" align="center">
+            </el-table-column>
+            <el-table-column prop="time" label="流入时间" align="center">
+            </el-table-column>
+            <el-table-column prop="batchNum" label="批次号" align="center">
+            </el-table-column>
+            <el-table-column prop="name" label="客户姓名" align="center">
+                <template scope="scope">
+                    <el-button @click="clientNameClick(scope)" type="text">{{ scope.row.name | encryptName}}</el-button>
+                </template>
+            </el-table-column>
+            <el-table-column prop="restate" label="还款状态"
+                             align="center">
+            </el-table-column>
+            <el-table-column prop="days" label="逾期天数"
+                             align="center">
+            </el-table-column>
+            <el-table-column prop="entruster" label="委托方"
+                             align="center">
+            </el-table-column>
+            <el-table-column prop="collecter" label="催收人"
+                             align="center">
+            </el-table-column>
+            <el-table-column prop="examinateState" label="审批状态"
+                             align="center">
+                <template scope="scope">
+                    <span v-if="scope.row.examinateState=='审批拒绝'">{{scope.row.examinateState}}</span>
+                    <span v-else>{{scope.row.examinateState}}</span>
+                </template>
+            </el-table-column>
+            <el-table-column label="操作" align="center">
+                <template scope="scope">
+                    <el-button @click="getTaskClick(scope)" type="text">领取</el-button>
+                </template>
+            </el-table-column>
+        </el-table>
+        <el-row class="tableTools">
+            <div class="block" style="float: right">
+                <el-pagination
+                        @current-change="handleCurrentChange"
+                        :current-page="currentPage"
+                        :page-size="20"
+                        layout="total, prev, pager, next"
+                        :total="tableData.length">
+                </el-pagination>
+            </div>
+        </el-row>
+    </template>
+</div>
+<script>
+    var Main = {
+        data() {
+            return {
+                batchNumValue:"",
+                customerValue:"",
+                entrusterValue:"",
+                repayStateValue: "",
+                overdueBeginValue:"",
+                overdueFinishValue:"",
+                ODVValue:"",
+                stateValue:"",
+                stateOptions:[{
+                    value: "已完成",
+                    label: "已完成"
+                }, {
+                    value: "流出",
+                    label: "流出"
+                }],
+                repayStateOptions: [{
+                    value: "M1",
+                    label: "M1"
+                }, {
+                    value: "M2",
+                    label: "M2"
+                }, {
+                    value: "M3",
+                    label: "M3"
+                }, {
+                    value: "M4",
+                    label: "M4"
+                }, {
+                    value: "M5",
+                    label: "M5"
+                }],
+                entrusterOptions:[],
+                tableData: [{
+                    "id":"001",
+                    "time": "2016-12-26 09:00:00",
+                    "batchNum":"2017021701",
+                    "name": "胡一",
+                    "restate": "M1",
+                    "days": "2"
+                },{
+                    "id":"002",
+                    "time": "2016-12-26 09:00:00",
+                    "batchNum":"2017021702",
+                    "name": "胡一",
+                    "restate": "M2",
+                    "days": "2"
+                },{
+                    "id":"003",
+                    "time": "2016-12-26 09:00:00",
+                    "batchNum":"2017021703",
+                    "name": "胡一",
+                    "restate": "M3",
+                    "days": "2"
+                },{
+                    "id":"004",
+                    "time": "2016-12-26 09:00:00",
+                    "batchNum":"2017021704",
+                    "name": "胡一",
+                    "restate": "M4",
+                    "days": "2"
+                },{
+                    "id":"005",
+                    "time": "2016-12-26 09:00:00",
+                    "batchNum":"2017021705",
+                    "name": "胡一",
+                    "restate": "M5",
+                    "days": "2"
+                }],
+                multipleSelection:[],
+                batchGetAlert:'',
+                currentPage: 5
+            }
+        },
+        methods: {
+            formatter(row, column) {
+                return row.address;
+            },
+//            搜索按钮点击事件
+            searchClick(){
+                console.log(1);
+            },
+//            一键分配点击事件
+            distributionClick(){
+                if(this.multipleSelection.length==0){
+                    this.batchGetAlert='请选择要领取的客户';
+                }else{
+                    var newArr=[];
+                    this.multipleSelection.forEach(function (item,index,input) {
+                        newArr.push(item.id);
+                    })
+                    this.batchGetAlert='领取成功'
+                    console.log(newArr);
+                }
+                this.$alert(this.batchGetAlert, '提示', {
+                        confirmButtonText: '确定',
+                        callback: action => {
+//                        this.$message({
+//                            type: 'info',
+//                            message: `action: ${ action }`
+//                        });
+                    }
+            });
+            },
+//            客户姓名点击事件
+            clientNameClick(scope) {
+//                window.parent.document.getElementById("openNew").value=scope.row.name;
+//                console.log(parent.parentVar);
+                console.log(scope.row.id);
+            },
+//            领取点击事件
+            getTaskClick(scope){
+                console.log(scope.row.id);
+            },
+//            复选框选项变化检测
+            handleSelectionChange(val) {
+                this.multipleSelection = val;
+                console.log(this.multipleSelection);
+            },
+//            当前页变动事件
+            handleCurrentChange(val) {
+                this.currentPage = val;
+                console.log(`当前页: ${val}`);
+            }
+        },
+        filters: {
+            encryptName (value) {
+                return value.replace(value.charAt(1),"*");
+            }
+        }
+    }
+    var Ctor = Vue.extend(Main);
+    new Ctor().$mount('#app');
+</script>
 </body>
 </html>
