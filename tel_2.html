@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>电催客户</title>
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/font-awesome.min.css" rel="stylesheet">
+    <link href="css/plugins/bootstrap-table.min.css" rel="stylesheet">
+    <link href="css/animate.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+    <!-- 全局js -->
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+
+    <!--bootstrap-table-->
+    <script src="js/plugins/bootstrap-table.min.js"></script>
+    <script src="js/bootstrap-table-zh-CN.min.js"></script>
+    <script src="js/page/tel_2.js"></script>
+
+</head>
+<body>
+<div class="container-fluid">
+    <div class="page-header text-navy">
+        <h2>电催客户</h2>
+    </div>
+    <div class="ibox-content" style="border: none;padding-top:0px;padding-bottom: 0px;">
+        <form role="form" class="form-inline">
+            <div class="form-group input-group-sm">
+                <span >客户姓名：</span>
+                <input type="email" placeholder="" id="nameInput" class="form-control" style="width: 80px;">
+            </div>
+            <div class="form-group" style="margin-left: 20px;">
+                <span>还款状态：</span>
+                <select class="form-control m-b" name="account" id="stateSelect" style="margin: 0;height: 30px;border-radius: 3px;font-size: 13px;">
+                    <option>请选择</option>
+                    <option>M1</option>
+                    <option>M2</option>
+                    <option>M3</option>
+                    <option>M4</option>
+                    <option>M5+</option>
+                </select>
+            </div>
+            <div class="form-group input-group-sm" style="margin-left: 20px;">
+                <span >催收员：</span>
+                <input type="email" placeholder="" id="urgeName" class="form-control" style="width: 80px;">
+            </div>
+            <div class="form-group" style="margin-left: 20px;">
+                <span>状态：</span>
+                <select class="form-control m-b" name="account" id="urgeState" style="margin: 0;height: 30px;border-radius: 3px;font-size: 13px;">
+                    <option>请选择</option>
+                    <option>待催收</option>
+                    <option>催收中</option>
+                </select>
+            </div>
+            <div class="btn btn-primary btn-sm" id="searchBtn" style="margin-left: 20px;width:100px;">搜索</div>
+            <div class="btn btn-primary btn-sm" id="batchBtn" style="margin-left: 20px;width:100px;">批量领取</div>
+        </form>
+    </div>
+    <table id="table" data-classes="table-no-bordered"></table>
+</div>
+</body>
+</html>

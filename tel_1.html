@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>电催客户池</title>
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/font-awesome.min.css" rel="stylesheet">
+    <link href="css/plugins/bootstrap-table.min.css" rel="stylesheet">
+    <link href="css/animate.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/page/tel_1.css">
+
+    <!-- 全局js -->
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+
+    <!--bootstrap-table-->
+    <script src="js/plugins/bootstrap-table.min.js"></script>
+    <script src="js/bootstrap-table-zh-CN.min.js"></script>
+    <script src="js/page/tel_1.js"></script>
+
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="page-header text-navy">
+            <h2>电催客户池</h2>
+        </div>
+        <div class="ibox-content" style="border: none;padding-top:0px;padding-bottom: 0px;">
+            <form role="form" class="form-inline">
+                <div class="form-group input-group-sm">
+                    <span >客户姓名：</span>
+                    <input type="email" placeholder="" id="nameInput" class="form-control">
+                </div>
+                <div class="form-group" style="margin-left: 20px;">
+                    <span>还款状态：</span>
+                    <select class="form-control m-b" name="account" id="stateSelect" style="margin: 0;height: 30px;border-radius: 3px;font-size: 13px;">
+                        <option>请选择</option>
+                        <option>M1</option>
+                        <option>M2</option>
+                        <option>M3</option>
+                        <option>M4</option>
+                        <option>M5+</option>
+                    </select>
+                </div>
+                <div class="btn btn-primary btn-sm" id="searchBtn" style="margin-left: 20px;width:100px;">搜索</div>
+                <div class="btn btn-primary btn-sm" id="batchBtn" style="margin-left: 20px;width:100px;">批量领取</div>
+            </form>
+        </div>
+        <table id="table" ></table>
+    </div>
+    <!--批量领取未选择的模态框-->
+    <div class="modal modal fade" id="myModal1" tabindex="-1" role="dialog"  style="background: rgba(0,0,0,0.5);">
+        <div class="modal-dialog modal-sm center-center">
+            <div class="modal-content center-center modalcon1">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true" class="close">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title">提示</h4>
+                </div>
+                <div class="modal-body">
+                    <span>请选择要领取的客户</span>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary know-click">知道了</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal modal fade" id="myModal2" tabindex="-1" role="dialog"  style="background: rgba(0,0,0,0.5);">
+        <div class="modal-dialog modal-sm center-center">
+            <div class="modal-content center-center modalcon1">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true" class="close">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title">提示</h4>
+                </div>
+                <div class="modal-body">
+                    <span>已领取20个客户！当前持有客户50个，今日人均量55个客户。</span>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary know-click">知道了</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
