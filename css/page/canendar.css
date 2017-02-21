@@ -1,0 +1,99 @@
+body{
+    margin:0;
+    padding:0;
+    font-family:'微软雅黑';
+    color:#333;
+}
+.myCanendar-box{
+    height:523px;
+    width: 980px;
+    margin:50px auto;
+    border-left:1px solid grey;
+    border-top:1px solid grey;
+}
+.myCanendar-title{
+    text-align: center;
+    height:50px;
+    line-height: 50px;
+    border-bottom:1px solid grey;
+    border-right:1px solid grey;
+    width:979px;
+    background: #4db3ff;
+    color: #ffffff;
+    font-size:18px;
+}
+.myCanendar-monthbox{
+    height:50px;
+    width:979px;
+    background: #ffffff;
+    position: relative;
+    line-height: 50px;
+    text-align: center;
+    border-right:1px solid gray;
+    border-bottom:1px solid gray;
+    font-size:16px;
+}
+.myCanendar-monthbox div{
+    position: absolute;
+    height:30px;
+    width:30px;
+    border-radius: 50%;
+    top: 0;
+    bottom:0;
+    margin: auto;
+    border:1px solid grey;
+    background: #ffffff;
+    font-family:simsun;
+    text-align: center;
+    line-height:30px;
+}
+.myCanendar-monthbox .myCanendar-Lbtn{
+    left: 300px;
+}
+.myCanendar-monthbox .myCanendar-Rbtn{
+    right:300px;
+}
+.myCanendar-weekrow{
+    height:41px;
+    width:100%;
+    background: #ffffff;
+}
+.myCanendar-weekrow .myCanendar-weekcell{
+    width:139px;
+    height:40px;
+    border-right:1px solid gray;
+    border-bottom:1px solid gray;
+    float: left;
+    text-align: center;
+    line-height:40px;
+    font-size: 14px;
+}
+.myCanendar-dayrow{
+    height:76px;
+    width:100%;
+    background: #ffffff;
+}
+.myCanendar-dayrow .myCanendar-daycell{
+    width:139px;
+    height:75px;
+    border-right:1px solid gray;
+    border-bottom:1px solid gray;
+    float: left;
+    text-align: center;
+    line-height:40px;
+}
+.myCanendar-dayNum{
+    height:35px;
+    width:100%;
+    line-height:35px;
+    color: #333;
+    text-align: center;
+    font-size:14px;
+}
+.myCanendar-dayMes{
+    height:20px;
+    width:100%;
+    font-size:12px;
+    line-height:15px;
+    color: #333;
+}

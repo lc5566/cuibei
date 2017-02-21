@@ -1,0 +1,42 @@
+body{
+    background: #ffffff;
+    margin:0;
+    padding:0;
+    padding-left:15px;
+    padding-right:15px;
+}
+.page-header{
+    padding: 20px 0 9px;
+    border-bottom: 1px solid #eeeeee;
+}
+.page-header h3{
+    font-weight:500;
+    font-size: 24px;
+    margin-bottom: 10px;
+    margin-top:20px;
+}
+.fontBlue{
+    color:#20A0FF;
+}
+.titText{
+    line-height: 30px;
+    font-size:14px;
+    color: #1f2d3d;
+}
+.tableTools{
+    padding: 20px;
+    background: #ffffff;
+}
+.tableTools .btn{
+    width:100px;
+    margin-left:0;
+    margin-right:20px;
+}
+.customerInput{
+    width: 80px;
+    margin-right:20px;
+}
+.stateSel{
+    width: 100px;
+    margin-right:20px;
+}

@@ -5,66 +5,21 @@
     <title>Title</title>
     <!--<script src="js/jquery.js"></script>-->
     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-default/index.css">
+    <link rel="stylesheet" href="css/page/pagesCommon.css">
+    <link rel="stylesheet" href="">
+
     <!-- 引入组件库 -->
     <script src="js/vue.js"></script>
+    <script src="js/vue-resource.js"></script>
     <script src="https://unpkg.com/element-ui/lib/index.js"></script>
-    <style>
-        body{
-            background: #ffffff;
-            margin:0;
-            padding:0;
-            padding-left:15px;
-            padding-right:15px;
-        }
-        .page-header{
-            padding: 20px 0 9px;
-            border-bottom: 1px solid #eeeeee;
-        }
-        .page-header h3{
-            font-weight:500;
-            font-size: 24px;
-            margin-bottom: 10px;
-            margin-top:20px;
-        }
-        .fontGreen{
-            color:#1ab394;
-        }
-        .fontBlue{
-            color:#20A0FF;
-        }
-        .bgGreen{
-            background: #1ab394;
-        }
-        .titText{
-            line-height: 30px;
-            font-size:14px;
-            color: #1f2d3d;
-        }
-        .tableTools{
-            padding: 20px;
-            background: #ffffff;
-        }
-        .tableTools .btn{
-            width:100px;
-            margin-left:0;
-            margin-right:20px;
-        }
-        .customerInput{
-            width: 80px;
-            margin-right:20px;
-        }
-        .stateSel{
-            width: 100px;
-            margin-right:20px;
-        }
+    <script src="js/page/tel_2.js"></script>
 
-    </style>
 </head>
 <body>
-<div class="fontBlue page-header">
-    <h3>电催客户</h3>
-</div>
 <div id="app">
+    <div class="fontBlue page-header">
+        <h3>电催客户</h3>
+    </div>
     <template>
         <el-row class="tableTools">
             <el-col>
@@ -108,9 +63,11 @@
                 <el-button type="primary" size="small" class="btn" @click="distributionClick">一键分配</el-button>
             </el-col>
         </el-row>
-        <el-table :data="tableData" stripe style="width: 100%"
-                  :default-sort="{prop: 'time', order: 'descending'}"
-                  @selection-change="handleSelectionChange">
+        <el-table
+                v-loading="loading"
+                :data="tableData" stripe style="width: 100%"
+                :default-sort="{prop: 'time', order: 'descending'}"
+                @selection-change="handleSelectionChange">
             <el-table-column type="selection" align="center">
             </el-table-column>
             <el-table-column type="index" label="序号" width="100" align="center">
@@ -136,16 +93,13 @@
             <el-table-column prop="collecter" label="催收人"
                              align="center">
             </el-table-column>
-            <el-table-column prop="examinateState" label="审批状态"
+            <el-table-column prop="collectionState" label="状态"
                              align="center">
-                <template scope="scope">
-                    <span v-if="scope.row.examinateState=='审批拒绝'">{{scope.row.examinateState}}</span>
-                    <span v-else>{{scope.row.examinateState}}</span>
-                </template>
             </el-table-column>
             <el-table-column label="操作" align="center">
                 <template scope="scope">
-                    <el-button @click="getTaskClick(scope)" type="text">领取</el-button>
+                    <el-button @click="collectionClick(scope)" v-if="scope.row.collectionState=='待催收'" type="text">开始催收</el-button>
+                    <el-button @click="collectionClick(scope)" v-else type="text">催收详情</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -161,143 +115,21 @@
             </div>
         </el-row>
     </template>
+
+    <!--一键分配弹出框开始-->
+    <el-dialog title="收货地址" v-model="dialogVisible">
+        <el-table :data="dialogTableData">
+            <el-table-column type="index" label="序号" align="center" width="70"></el-table-column>
+            <el-table-column property="collecter" label="催收专员" align="center"></el-table-column>
+            <el-table-column property="currentAmount" label="当前持有案件数" align="center"></el-table-column>
+            <el-table-column property="currentAmount" label="当前持有案件数" align="center"></el-table-column>
+            <el-table-column property="currentAmount" label="当前持有案件数" align="center"></el-table-column>
+        </el-table>
+        <span slot="footer" class="dialog-footer">
+            <el-button type="primary" @click="dialogVisible = false">确认分配</el-button>
+            <el-button type="primary" @click="dialogVisible = false">重选案件</el-button>
+        </span>
+    </el-dialog>
 </div>
-<script>
-    var Main = {
-        data() {
-            return {
-                batchNumValue:"",
-                customerValue:"",
-                entrusterValue:"",
-                repayStateValue: "",
-                overdueBeginValue:"",
-                overdueFinishValue:"",
-                ODVValue:"",
-                stateValue:"",
-                stateOptions:[{
-                    value: "已完成",
-                    label: "已完成"
-                }, {
-                    value: "流出",
-                    label: "流出"
-                }],
-                repayStateOptions: [{
-                    value: "M1",
-                    label: "M1"
-                }, {
-                    value: "M2",
-                    label: "M2"
-                }, {
-                    value: "M3",
-                    label: "M3"
-                }, {
-                    value: "M4",
-                    label: "M4"
-                }, {
-                    value: "M5",
-                    label: "M5"
-                }],
-                entrusterOptions:[],
-                tableData: [{
-                    "id":"001",
-                    "time": "2016-12-26 09:00:00",
-                    "batchNum":"2017021701",
-                    "name": "胡一",
-                    "restate": "M1",
-                    "days": "2"
-                },{
-                    "id":"002",
-                    "time": "2016-12-26 09:00:00",
-                    "batchNum":"2017021702",
-                    "name": "胡一",
-                    "restate": "M2",
-                    "days": "2"
-                },{
-                    "id":"003",
-                    "time": "2016-12-26 09:00:00",
-                    "batchNum":"2017021703",
-                    "name": "胡一",
-                    "restate": "M3",
-                    "days": "2"
-                },{
-                    "id":"004",
-                    "time": "2016-12-26 09:00:00",
-                    "batchNum":"2017021704",
-                    "name": "胡一",
-                    "restate": "M4",
-                    "days": "2"
-                },{
-                    "id":"005",
-                    "time": "2016-12-26 09:00:00",
-                    "batchNum":"2017021705",
-                    "name": "胡一",
-                    "restate": "M5",
-                    "days": "2"
-                }],
-                multipleSelection:[],
-                batchGetAlert:'',
-                currentPage: 5
-            }
-        },
-        methods: {
-            formatter(row, column) {
-                return row.address;
-            },
-//            搜索按钮点击事件
-            searchClick(){
-                console.log(1);
-            },
-//            一键分配点击事件
-            distributionClick(){
-                if(this.multipleSelection.length==0){
-                    this.batchGetAlert='请选择要领取的客户';
-                }else{
-                    var newArr=[];
-                    this.multipleSelection.forEach(function (item,index,input) {
-                        newArr.push(item.id);
-                    })
-                    this.batchGetAlert='领取成功'
-                    console.log(newArr);
-                }
-                this.$alert(this.batchGetAlert, '提示', {
-                        confirmButtonText: '确定',
-                        callback: action => {
-//                        this.$message({
-//                            type: 'info',
-//                            message: `action: ${ action }`
-//                        });
-                    }
-            });
-            },
-//            客户姓名点击事件
-            clientNameClick(scope) {
-//                window.parent.document.getElementById("openNew").value=scope.row.name;
-//                console.log(parent.parentVar);
-                console.log(scope.row.id);
-            },
-//            领取点击事件
-            getTaskClick(scope){
-                console.log(scope.row.id);
-            },
-//            复选框选项变化检测
-            handleSelectionChange(val) {
-                this.multipleSelection = val;
-                console.log(this.multipleSelection);
-            },
-//            当前页变动事件
-            handleCurrentChange(val) {
-                this.currentPage = val;
-                console.log(`当前页: ${val}`);
-            }
-        },
-        filters: {
-            encryptName (value) {
-                return value.replace(value.charAt(1),"*");
-            }
-        }
-    }
-    var Ctor = Vue.extend(Main);
-    new Ctor().$mount('#app');
-</script>
 </body>
 </html>
