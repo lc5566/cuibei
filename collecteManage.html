@@ -15,7 +15,7 @@
 </head>
 <body>
 <div class="fontBlue page-header">
-    <h3>电催客户池</h3>
+    <h3>催收管理</h3>
 </div>
 <div id="app">
     <template>
@@ -70,7 +70,7 @@
                 <el-pagination
                         @current-change="handleCurrentChange"
                         :current-page="currentPage"
-                        :page-size="1"
+                        :page-size="20"
                         layout="total, prev, pager, next"
                         :total="tableData.length">
                 </el-pagination>
@@ -78,5 +78,7 @@
         </el-row>
     </template>
 </div>
+<script>
+</script>
 </body>
 </html>

@@ -27,35 +27,35 @@ window.onload=function () {
                     "batchNum":"2017021701",
                     "name": "胡一",
                     "restate": "M1",
-                    "days": "2"
+                    "days": 2
                 },{
                     "id":"002",
                     "time": "2016-12-26 09:00:00",
                     "batchNum":"2017021702",
                     "name": "胡一",
                     "restate": "M2",
-                    "days": "2"
+                    "days": 2
                 },{
                     "id":"003",
                     "time": "2016-12-26 09:00:00",
                     "batchNum":"2017021703",
                     "name": "胡一",
                     "restate": "M3",
-                    "days": "2"
+                    "days": 2
                 },{
                     "id":"004",
                     "time": "2016-12-26 09:00:00",
                     "batchNum":"2017021704",
                     "name": "胡一",
                     "restate": "M4",
-                    "days": "2"
+                    "days": 2
                 },{
                     "id":"005",
                     "time": "2016-12-26 09:00:00",
                     "batchNum":"2017021705",
                     "name": "胡一",
                     "restate": "M5",
-                    "days": "2"
+                    "days": 2
                 }],
                 multipleSelection:[],
                 batchGetAlert:'',
@@ -96,7 +96,7 @@ window.onload=function () {
 //                         message: `action: ${ action }`
 //                      });
                     }
-            });
+                });
             },
 //            客户姓名点击事件
             clientNameClick(scope) {

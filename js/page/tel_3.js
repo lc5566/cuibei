@@ -2,16 +2,14 @@ window.onload=function () {
     var Main = {
         data() {
             return {
-                searchVal:{
-                    batchNum:"",
-                    customer:"",
-                    entruster:"",
-                    repayState: "",
-                    overdueBegin:"",
-                    overdueFinish:"",
-                    ODV:"",
-                    state:"",
-                },
+                batchNumValue:"",
+                customerValue:"",
+                entrusterValue:"",
+                repayStateValue: "",
+                overdueBeginValue:"",
+                overdueFinishValue:"",
+                ODVValue:"",
+                stateValue:"",
                 stateOptions:[
                     {
                         value: "已完成",
@@ -50,7 +48,7 @@ window.onload=function () {
                         "days": 2,
                         "entruster":"中资联",
                         "collecter":"丁金龙",
-                        "collectionState":"待催收"
+                        "collectionState":"已完成"
 
                     },{
                         "id":"002",
@@ -61,7 +59,7 @@ window.onload=function () {
                         "days": 2,
                         "entruster":"中资联",
                         "collecter":"丁金龙",
-                        "collectionState":"待催收"
+                        "collectionState":"已完成"
                     },{
                         "id":"003",
                         "time": "2016-12-26 09:00:00",
@@ -71,7 +69,7 @@ window.onload=function () {
                         "days": 2,
                         "entruster":"中资联",
                         "collecter":"丁金龙",
-                        "collectionState":"待催收"
+                        "collectionState":"已完成"
                     },{
                         "id":"004",
                         "time": "2016-12-26 09:00:00",
@@ -81,7 +79,7 @@ window.onload=function () {
                         "days": 2,
                         "entruster":"中资联",
                         "collecter":"丁金龙",
-                        "collectionState":"催收中"
+                        "collectionState":"流出"
                     },{
                         "id":"005",
                         "time": "2016-12-26 09:00:00",
@@ -91,76 +89,20 @@ window.onload=function () {
                         "days": 2,
                         "entruster":"中资联",
                         "collecter":"丁金龙",
-                        "collectionState":"催收中"
+                        "collectionState":"流出"
                     }
                 ],
-                multipleSelection:[],
                 loading: false,
-                currentPage: 5,
-                // 以下是一键分配弹出框数据
-                dialogVisible:false,
-                todayPer:35,
-                numAmountObj:{},
-                dialogTableData:[
-                    {
-                        "id":1,
-                        "collecter":"刘春春",
-                        "currentAmount":15
-                    },{
-                        "id":2,
-                        "collecter":"刘春",
-                        "currentAmount":40
-                    },{
-                        "id":3,
-                        "collecter":"刘春",
-                        "currentAmount":40
-                    },{
-                        "id":4,
-                        "collecter":"刘春",
-                        "currentAmount":40
-                    },{
-                        "id":5,
-                        "collecter":"刘春",
-                        "currentAmount":40
-                    },{
-                        "id":6,
-                        "collecter":"刘春",
-                        "currentAmount":40
-                    },{
-                        "id":7,
-                        "collecter":"刘春",
-                        "currentAmount":40
-                    }
-                ]
+                currentPage: 5
             }
         },
         methods: {
-            pageLoadingGet:function() {
-
-            },
             formatter(row, column) {
                 return row.address;
             },
 //            搜索按钮点击事件
             searchClick(){
-                console.log(this.searchVal);
-            },
-//            一键分配点击事件
-            distributionClick(){
-                if(this.multipleSelection.length==0){
-                    this.$alert('请选择要分配的案件', '提示', {
-                        confirmButtonText: '确定',
-                        callback: action => {
-                           // this.$message({
-                           //     type: 'info',
-                           //     message: `action: ${ action }`
-                           // });
-                        }
-                    });
-                }else{
-                    this.dialogVisible=true;
-                }
-
+                console.log(1);
             },
 //            客户姓名点击事件
             clientNameClick(scope) {
@@ -172,21 +114,10 @@ window.onload=function () {
             collectionClick(scope){
                 console.log(scope.row.id);
             },
-//            复选框选项变化检测
-            handleSelectionChange(val) {
-                this.multipleSelection = val;
-                console.log(this.multipleSelection);
-            },
 //            当前页变动事件
             handleCurrentChange(val) {
                 this.currentPage = val;
                 console.log(`当前页: ${val}`);
-            },
-            // 弹出框输入事件
-            amountChange(scope){
-                let key=scope.row.id;
-                this.numAmountObj[key]=numAmount;
-
             }
         },
         filters: {

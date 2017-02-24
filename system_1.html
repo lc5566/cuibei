@@ -11,24 +11,21 @@
     <script src="js/vue.js"></script>
     <script src="js/vue-resource.js"></script>
     <script src="js/element-ui-min.js"></script>
-    <script src="js/page/tel_1.js"></script>
 </head>
 <body>
 <div class="fontBlue page-header">
-    <h3>电催客户池</h3>
+    <h3>机构管理</h3>
 </div>
 <div id="app">
     <template>
         <el-row class="tableTools">
             <el-col>
-                <span class="titText">批次号：</span>
+                <span class="titText">机构名称：</span>
                 <el-input v-model="batchNumValue" placeholder="" size="small"  class="customerInput"></el-input>
-                <span class="titText">客户姓名：</span>
-                <el-input v-model="customerValue" placeholder="" size="small"  class="customerInput"></el-input>
-                <span class="titText">还款状态：</span>
-                <el-select v-model="repayStateValue" clearable placeholder="请选择"  size="small" class="stateSel">
+                <span class="titText">机构级别：</span>
+                <el-select v-model="institutionsValue" clearable placeholder="请选择"  size="small" class="stateSel">
                     <el-option
-                            v-for="item in repayStateOptions"
+                            v-for="item in institutionsOptions"
                             :label="item.value"
                             :value="item.value">
                     </el-option>
@@ -66,7 +63,7 @@
             </el-table-column>
         </el-table>
         <el-row class="tableTools">
-            <div class="block" style="float: right">
+            <div class="block" style="float: right;">
                 <el-pagination
                         @current-change="handleCurrentChange"
                         :current-page="currentPage"
@@ -79,4 +76,24 @@
     </template>
 </div>
 </body>
+<script>
+    var Main = {
+        data() {
+            return {
+
+            }
+        },
+        methods: {
+            pageLoadingGet:function() {
+
+            },
+//            搜索按钮点击事件
+            searchClick(){
+
+            }
+        },
+    }
+    var Ctor = Vue.extend(Main);
+    new Ctor().$mount('#app');
+</script>
 </html>

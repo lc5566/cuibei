@@ -4,15 +4,10 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <!--<script src="js/jquery.js"></script>-->
-    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-default/index.css">
+    <link rel="stylesheet" href="css/element-ui/element-ui-min.css">
     <link rel="stylesheet" href="css/page/pagesCommon.css">
     <link rel="stylesheet" href="">
 
-    <!-- 引入组件库 -->
-    <script src="js/vue.js"></script>
-    <script src="js/vue-resource.js"></script>
-    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
-    <script src="js/page/tel_2.js"></script>
 
 </head>
 <body>
@@ -24,11 +19,11 @@
         <el-row class="tableTools">
             <el-col>
                 <span class="titText">批次号：</span>
-                <el-input v-model="batchNumValue" placeholder="" size="small"  class="customerInput"></el-input>
+                <el-input v-model="searchVal.batchNum" placeholder="" size="small"  class="customerInput"></el-input>
                 <span class="titText">客户姓名：</span>
-                <el-input v-model="customerValue" placeholder="" size="small"  class="customerInput"></el-input>
+                <el-input v-model="searchVal.customer" placeholder="" size="small"  class="customerInput"></el-input>
                 <span class="titText">委托方：</span>
-                <el-select v-model="entrusterValue" clearable placeholder="请选择"  size="small" class="stateSel">
+                <el-select v-model="searchVal.entruster" clearable placeholder="请选择"  size="small" class="stateSel">
                     <el-option
                             v-for="item in entrusterOptions"
                             :label="item.value"
@@ -36,7 +31,7 @@
                     </el-option>
                 </el-select>
                 <span class="titText">还款状态：</span>
-                <el-select v-model="repayStateValue" clearable placeholder="请选择"  size="small" class="stateSel">
+                <el-select v-model="searchVal.repayState" clearable placeholder="请选择"  size="small" class="stateSel">
                     <el-option
                             v-for="item in repayStateOptions"
                             :label="item.value"
@@ -44,15 +39,17 @@
                     </el-option>
                 </el-select>
                 <span class="titText">逾期天数：</span>
-                <el-input v-model="overdueBeginValue" placeholder="" size="small"  class="customerInput" style="margin-right:0;"></el-input>
+                <el-input type="number" :min="0" v-model="searchVal.overdueBegin"
+                          placeholder="" size="small"  class="customerInput" style="margin-right:0;"></el-input>
                 <span>-</span>
-                <el-input v-model="overdueFinishValue" placeholder="" size="small"  class="customerInput"></el-input>
+                <el-input type="number" :min="searchVal.overdueBegin" v-model="searchVal.overdueFinish"
+                          placeholder="" size="small"  class="customerInput"></el-input>
             </el-col>
             <el-col style="margin-top: 20px;">
                 <span class="titText">催收员：</span>
-                <el-input v-model="ODVValue" placeholder="" size="small"  class="customerInput"></el-input>
+                <el-input v-model="searchVal.ODV" placeholder="" size="small"  class="customerInput"></el-input>
                 <span class="titText">状态：</span>
-                <el-select v-model="stateValue" clearable placeholder="请选择"  size="small" class="stateSel">
+                <el-select v-model="searchVal.state" clearable placeholder="请选择"  size="small" class="stateSel">
                     <el-option
                             v-for="item in stateOptions"
                             :label="item.value"
@@ -117,13 +114,30 @@
     </template>
 
     <!--一键分配弹出框开始-->
-    <el-dialog title="收货地址" v-model="dialogVisible">
-        <el-table :data="dialogTableData">
+    <el-dialog title="批量分配" v-model="dialogVisible">
+        <div class="el-alert el-alert--info" v-show="dialogVisible" style="margin-bottom:20px;display: none;">
+            <div class="el-alert__content">
+                <span class="el-alert__title">当前已选择{{multipleSelection.length}}个案件，今日人均案件{{todayPer}}个。
+                    已分配案件个，还剩余个案件待分配。</span>
+            </div>
+        </div>
+        <el-table :data="dialogTableData" :default-sort="{prop: 'currentAmount', order: 'ascending'}" max-height="400">
             <el-table-column type="index" label="序号" align="center" width="70"></el-table-column>
             <el-table-column property="collecter" label="催收专员" align="center"></el-table-column>
             <el-table-column property="currentAmount" label="当前持有案件数" align="center"></el-table-column>
-            <el-table-column property="currentAmount" label="当前持有案件数" align="center"></el-table-column>
-            <el-table-column property="currentAmount" label="当前持有案件数" align="center"></el-table-column>
+            <el-table-column property="assignedCase" label="可分配案件数" align="center">
+                <template scope="scope">
+                    <span>{{(todayPer-scope.row.currentAmount)<0?0:(todayPer-scope.row.currentAmount)}}</span>
+                </template>
+            </el-table-column>
+            <el-table-column property="currentAmount" label="确认分配案件数" align="center">
+                <template scope="scope">
+                    <el-input type="number" min="0"
+                              :max="((todayPer-scope.row.currentAmount)<0?0:(todayPer-scope.row.currentAmount))
+                              >multipleSelection.length?multipleSelection.length:((todayPer-scope.row.currentAmount)<0?0:(todayPer-scope.row.currentAmount))"
+                              size="small"></el-input>
+                </template>
+            </el-table-column>
         </el-table>
         <span slot="footer" class="dialog-footer">
             <el-button type="primary" @click="dialogVisible = false">确认分配</el-button>
@@ -132,4 +146,9 @@
     </el-dialog>
 </div>
 </body>
+<!-- 引入组件库 -->
+<script src="js/vue.js"></script>
+<script src="js/vue-resource.js"></script>
+<script src="js/element-ui-min.js"></script>
+<script src="js/page/tel_2.js"></script>
 </html>
